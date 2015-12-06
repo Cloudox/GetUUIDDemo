@@ -17,6 +17,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    CFUUIDRef puuid = CFUUIDCreate(nil);
+    CFStringRef uuidString = CFUUIDCreateString(nil, puuid);
+    NSString *result = (NSString *)CFBridgingRelease(CFStringCreateCopy(NULL, uuidString));
+    NSMutableString *tmpResult = result.mutableCopy;
+    // 去除“-”
+    NSRange range = [tmpResult rangeOfString:@"-"];
+    while (range.location != NSNotFound) {
+        [tmpResult deleteCharactersInRange:range];
+        range = [tmpResult rangeOfString:@"-"];
+    }
+    NSLog(@"UUID:%@",tmpResult);
 }
 
 - (void)didReceiveMemoryWarning {
